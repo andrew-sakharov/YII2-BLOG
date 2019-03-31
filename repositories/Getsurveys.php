@@ -1,22 +1,21 @@
 <?php
 
 namespace app\repositories;
-use Yii;
 use app\models\surveys\Surveys;
-use app\models\surveys\Topics;
-use app\models\surveys\Citizens;
+use app\models\User;
 
 class Getsurveys
 {
-    public function __invoke($id, $surveys_count)
+    public function __invoke($id, $surveys_count)   // получить комментарии по выбранной теме
     {
-        $surveys = Surveys::find()->where(['topic_id' => $id])->asArray()->orderby(['create_date'=>SORT_DESC])->all();
+        $surveys = Surveys::find()->where(['topic_id' => $id])->orderby(['create_date'=>SORT_DESC])->all();
             $i= 0;
-            while ($i < $surveys_count) {           
-                $citizens_id = $surveys[$i]['citizen_id'];
-                $citizens = Citizens::find()->where(['id' => $citizens_id])->one();                     
-                $data[$i] = array("user_name"=>$citizens['user_name'],"message"=>$surveys[$i]['message'],
-                    "create_date"=>$surveys[$i]['create_date'], "citizen_id"=> $citizens_id, "topic_id"=> $id);
+            $data = array();            
+            foreach($surveys as $survey) {           
+                $users_id = $survey['user_id'];
+                $users = User::find()->where(['id' => $users_id])->one();
+                $data[$i] = array("user_name"=>$users['first_name'],"message"=>$survey['message'],
+                    "create_date"=>$survey['create_date'], "user_id"=> $users_id, "topic_id"=> $id);
                 $i++;
             }        
             return $data;
