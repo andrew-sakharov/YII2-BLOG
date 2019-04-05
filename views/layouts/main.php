@@ -68,6 +68,7 @@ AppAsset::register($this);
                     ['label' => 'Права', 'url' => ['/rbac/test']],
                     ['label' => 'Upload', 'url' => ['/topics/upload']],
                     ['label' => 'Опросы', 'url' => ['/surveys/index']],
+                    ['label' => 'Комментарии', 'url' => ['/surveys/detail']],
                     ['label' => 'Пользователи', 'url' => ['/user/index']],
                 ]]
            ) : (''),
